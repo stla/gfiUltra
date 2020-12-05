@@ -108,12 +108,11 @@ gfiEstimates <- function(gfi){
   Beta <- Sims[, -ncol(Sims), drop = FALSE]
   NAs <- apply(Beta, 2L, function(x) mean(is.na(x)))
   Beta <- Beta[, NAs < 0.5, drop = FALSE]
-  alpha <- 1-conf
   estimates <- apply(Beta, 2L, function(x){
     c(median = median(x, na.rm = TRUE), mean = mean(x, na.rm = TRUE))
   })
   cbind(
     estimates,
-    c(median = median(Sims[, "sigma"]), mean = mean(Sims[, "sigma"]))
+    sigma = c(median = median(Sims[, "sigma"]), mean = mean(Sims[, "sigma"]))
   )
 }
