@@ -41,7 +41,9 @@
 #' # fiducial confidence intervals
 #' gfiConfInt(gfi)
 #' gfiEstimates(gfi)
-gfiUltra <- function(formula, data, nsims = 1000L, verbose = FALSE, gamma = 1, ...){
+gfiUltra <- function(
+  formula, data, nsims = 1000L, verbose = FALSE, gamma = 1, ...
+){
   y <- f_eval_lhs(formula, data = data)
   X <- model.matrix(formula, data = data)
   n <- length(y)
@@ -64,7 +66,6 @@ gfiUltra <- function(formula, data, nsims = 1000L, verbose = FALSE, gamma = 1, .
   models_with_FIT <- modelsWithFIT(X = X, y = y, models = models)
   modelsProbs <-
     Rgammas(n = n, p = p, models_with_FIT = models_with_FIT, gamma = gamma)
-  #
   # simulations
   selected <- colnames(X)[c(1L, 1L + selectedIndices)]
   Sims <- matrix(NA_real_, nrow = nsims, ncol = length(selected) + 1L)
@@ -72,7 +73,7 @@ gfiUltra <- function(formula, data, nsims = 1000L, verbose = FALSE, gamma = 1, .
   nmodels <- length(models)
   for(i in 1L:nsims){
     M <- models_with_FIT[[sample.int(nmodels, 1L, prob = modelsProbs)]]
-    Mvariables <- c("(Intercept)", names(M[["indices"]])) # donc on s'en fout des indices
+    Mvariables <- c("(Intercept)", names(M[["indices"]])) # indices are not used
     Mdim <- length(Mvariables)
     Mrss <- M[["fit"]][["rss"]]
     sigma2 <- Mrss / rchisq(1L, n - Mdim)
@@ -102,7 +103,7 @@ gfiConfInt <- function(gfi, conf = 0.95){
   Beta <- Sims[, -ncol(Sims), drop = FALSE]
   NAs <- apply(Beta, 2L, function(x) mean(is.na(x)))
   Beta <- Beta[, NAs < 0.5, drop = FALSE]
-  alpha <- 1-conf
+  alpha <- 1 - conf
   intrvls <- apply(Beta, 2L, function(x){
     quantile(x, probs = c(alpha/2, 1-alpha/2), na.rm = TRUE)
   })
