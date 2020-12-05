@@ -11,7 +11,7 @@
 #' @export
 #' @importFrom SIS SIS
 #' @importFrom lazyeval f_eval_lhs
-#' @importFrom stats model.matrix
+#' @importFrom stats model.matrix rchisq rnorm
 #'
 #' @examples xxx
 gfiUltra <- function(formula, data, gamma = 1, ...){
@@ -22,8 +22,8 @@ gfiUltra <- function(formula, data, gamma = 1, ...){
   Xm1 <- X[, -1L, drop = FALSE]
   sis <- SIS(Xm1, y = y, family = "gaussian")
   models <- powerset(sis[["ix"]], colnames(Xm1))
-  models_with_RSS <- modelsWithRSS(X = X, y = y, models = models)
+  models_with_FIT <- modelsWithFIT(X = X, y = y, models = models)
   modelsProbs <-
-    Rgammas(n = n, p = p, models_with_RSS = models_with_RSS, gamma = gamma)
+    Rgammas(n = n, p = p, models_with_FIT = models_with_FIT, gamma = gamma)
 
 }

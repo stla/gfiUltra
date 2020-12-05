@@ -17,29 +17,37 @@ powerset <- function(ix, nms) {
 
 #' @importFrom stats lm.fit
 #' @noRd
-RSS <- function(X, y, model){
-  fit <- lm.fit(X[, model+1L, drop = FALSE], y)
-  sum(fit[["residuals"]]^2)
+lmFit <- function(X, y){
+  fit <- lm.fit(X, y)
+  list(
+    rss = sum(fit[["residuals"]]^2L),
+    coeffs = fit[["coefficients"]],
+    XtXinv = tcrossprod(qr.solve(fit[["qr"]], diag(length(y))))
+  )
 }
 
-modelsWithRSS <- function(X, y, models) {
+FITmodel <- function(X, y, model){
+  lmFit(X[, model+1L, drop = FALSE], y)
+}
+
+modelsWithFIT <- function(X, y, models) {
   lapply(models, function(model){
-    list(indices = model, rss = RSS(X, y, model))
+    list(indices = model, fit = FITmodel(X, y, model))
   })
 }
 
-Rgamma_unnrmlzd <- function(n, p, modelWithRSS, gamma){
-  d <- length(modelWithRSS[["indices"]]) + 1L
-  logR <- lgamma((n-d)/2) - (n-d-1)/2 * log(pi * modelWithRSS[["rss"]]) -
+Rgamma_unnrmlzd <- function(n, p, modelWithFIT, gamma){
+  d <- length(modelWithFIT[["indices"]]) + 1L
+  logR <- lgamma((n-d)/2) - (n-d-1)/2 * log(pi * modelWithFIT[["fit"]][["rss"]]) -
     (d+1)/2 * log(n) - gamma * lchoose(p, d)
   exp(logR)
 }
 
-Rgammas <- function(n, p, models_with_RSS, gamma){
+Rgammas <- function(n, p, models_with_FIT, gamma){
   # n <- length(y)
   # p <- ncol(X)
   Rgammas_unnrmlzd <- vapply(
-    models_with_RSS,
+    models_with_FIT,
     function(model) Rgamma_unnrmlzd(n, p, model, gamma),
     FUN.VALUE = numeric(1L)
   )
