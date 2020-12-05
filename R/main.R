@@ -8,6 +8,12 @@
 #'
 #' @return xxx
 #'
+#' @references Randy C. S. Lai, Jan Hannig & Thomas C. M. Lee.
+#'   \emph{Generalized Fiducial Inference for Ultrahigh-Dimensional Regression}.
+#'   Journal of the American Statistical Association,
+#'   Volume 110, 2015 - Issue 510, 760-772.
+#'   <doi:10.1080/01621459.2014.931237>
+#'
 #' @export
 #' @importFrom SIS SIS
 #' @importFrom lazyeval f_eval_lhs

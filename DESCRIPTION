@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "first.last@example.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Reference: Lai, Hannig & Lee (2015) <doi:10.1080/01621459.2014.931237>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
