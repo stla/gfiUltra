@@ -2,25 +2,49 @@
 % Please edit documentation in R/main.R
 \name{gfiUltra}
 \alias{gfiUltra}
-\title{Title}
+\title{Generalized fiducial inference for ultrahigh-dimensional regression}
 \usage{
 gfiUltra(formula, data, nsims = 5L, gamma = 1, ...)
 }
 \arguments{
-\item{formula}{xxx}
+\item{formula}{a formula describing the model}
 
-\item{data}{xxx}
+\item{data}{dataframe in which to search the variables of the model}
 
-\item{gamma}{xxx}
+\item{gamma}{tuning parameter; for expert usage only}
 
-\item{...}{named arguments passed to \code{\link[SIS:SIS]{SIS}}}
+\item{...}{named arguments passed to \code{\link[SIS:SIS]{SIS}}, such as
+\code{penalty = "lasso"}}
 }
 \value{
-xxx
+A list with two elements: the fiducial simulations in a matrix and
+  a vector giving the probabilities of the selected models.
 }
 \description{
-xxx
+Generates the fiducial simulations of the parameters of
+  a "large p - small n" regression model and returns the selected models
+  with their probability.
 }
 \examples{
-xxx
+# data ####
+set.seed(666L)
+n <- 300L
+p <- 1000L
+X <- matrix(rnorm(n * p), nrow = n, ncol = p)
+colnames(X) <- paste0("x", 1L:p)
+beta <- c(4, 5, 6, 7, 8)
+y <- X[, 1L:5L] \%*\% beta + rnorm(n, sd = 0.9)
+dat <- cbind(y, as.data.frame(X))
+# fiducial simulations ####
+gfi <- gfiUltra(y ~ ., data = dat, nsims = 10000L)
+# fiducial confidence intervals
+gfiConfInt(gfi)
+gfiEstimates(gfi)
+}
+\references{
+Randy C. S. Lai, Jan Hannig & Thomas C. M. Lee.
+  \emph{Generalized Fiducial Inference for Ultrahigh-Dimensional Regression}.
+  Journal of the American Statistical Association,
+  Volume 110, 2015 - Issue 510, 760-772.
+  <doi:10.1080/01621459.2014.931237>
 }

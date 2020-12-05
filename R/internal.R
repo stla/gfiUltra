@@ -1,3 +1,9 @@
+quiet <- function(x) {
+  sink(tempfile())
+  on.exit(sink())
+  invisible(force(x))
+}
+
 #' @importFrom utils combn
 #' @noRd
 powerset <- function(ix, nms) {

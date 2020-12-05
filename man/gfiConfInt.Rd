@@ -2,21 +2,22 @@
 % Please edit documentation in R/main.R
 \name{gfiConfInt}
 \alias{gfiConfInt}
-\title{Title}
+\title{Fiducial confidence intervals for ultrahigh-dimensional regression}
 \usage{
 gfiConfInt(gfi, conf = 0.95)
 }
 \arguments{
-\item{gfi}{xx}
+\item{gfi}{an output of \code{\link{gfiUltra}}}
 
-\item{conf}{xx}
+\item{conf}{confidence level}
 }
 \value{
-xx
+The confidence intervals in a matrix.
 }
 \description{
-xx
+Fiducial confidence intervals of the selected parameters of a
+  ultrahigh-dimensional regression.
 }
-\examples{
-xx
+\seealso{
+\code{\link{gfiEstimates}}
 }
