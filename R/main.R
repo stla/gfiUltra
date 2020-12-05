@@ -21,7 +21,7 @@ gfiUltra <- function(formula, data, gamma = 1, ...){
   p <- ncol(X)
   Xm1 <- X[, -1L, drop = FALSE]
   sis <- SIS(Xm1, y = y, family = "gaussian")
-  models <- powerset(sis$ix, colnames(Xm1))
+  models <- powerset(sis[["ix"]], colnames(Xm1))
   models_with_RSS <- modelsWithRSS(X = X, y = y, models = models)
   modelsProbs <-
     Rgammas(n = n, p = p, models_with_RSS = models_with_RSS, gamma = gamma)

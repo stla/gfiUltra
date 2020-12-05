@@ -4,9 +4,12 @@ powerset <- function(ix, nms) {
   subsets <- unlist(lapply(seq_along(ix), function(i){
     combn(ix, i, simplify = FALSE)
   }), recursive = FALSE)
+  subsets <- lapply(subsets, function(subset){
+    `names<-`(subset, nms[subset])
+  })
   names(subsets) <- vapply(
     subsets,
-    function(subset) paste0(nms[subset], collapse = " - "),
+    function(subset) paste0(names(subset), collapse = " - "),
     FUN.VALUE = character(1L)
   )
   subsets
