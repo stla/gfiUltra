@@ -21,7 +21,7 @@ gfiUltra <- function(formula, data, nsims = 5L, gamma = 1, ...){
   n <- length(y)
   p <- ncol(X)
   Xm1 <- X[, -1L, drop = FALSE]
-  sis <- SIS(Xm1, y = y, family = "gaussian", ...)
+  sis <- suppressMessages(SIS(Xm1, y = y, family = "gaussian", ...))
   models <- powerset(sis[["ix"]], colnames(Xm1))
   models_with_FIT <- modelsWithFIT(X = X, y = y, models = models)
   modelsProbs <-
@@ -34,8 +34,8 @@ gfiUltra <- function(formula, data, nsims = 5L, gamma = 1, ...){
   nmodels <- length(models)
   for(i in 1L:nsims){
     M <- models_with_FIT[[sample.int(nmodels, 1L, prob = modelsProbs)]]
-    Mvariables <- names(M[["indices"]]) # donc on s'en fout des indices
-    Mdim <- 1L + length(Mvariables)
+    Mvariables <- c("(Intercept)", names(M[["indices"]])) # donc on s'en fout des indices
+    Mdim <- length(Mvariables)
     Mrss <- M[["fit"]][["rss"]]
     sigma2 <- Mrss / rchisq(1L, n - Mdim)
     Mcoeffs <- M[["fit"]][["coeffs"]]

@@ -1,2 +1,4 @@
 ^gfiUltra\.Rproj$
 ^\.Rproj\.user$
+^inst/essais$
+^inst/documents$

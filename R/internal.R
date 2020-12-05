@@ -27,7 +27,7 @@ lmFit <- function(X, y){
 }
 
 FITmodel <- function(X, y, model){
-  lmFit(X[, model+1L, drop = FALSE], y)
+  lmFit(X[, c(1L, 1L + model), drop = FALSE], y)
 }
 
 modelsWithFIT <- function(X, y, models) {
