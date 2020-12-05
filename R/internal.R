@@ -19,3 +19,27 @@ RSS <- function(X, y, model){
   sum(fit[["residuals"]]^2)
 }
 
+modelsWithRSS <- function(X, y, models) {
+  lapply(models, function(model){
+    list(indices = model, rss = RSS(X, y, model))
+  })
+}
+
+Rgamma_unnrmlzd <- function(n, p, modelWithRSS, gamma){
+  d <- length(modelWithRSS[["indices"]]) + 1L
+  logR <- lgamma((n-d)/2) - (n-d-1)/2 * log(pi * modelWithRSS[["rss"]]) -
+    (d+1)/2 * log(n) - gamma * lchoose(p, d)
+  exp(logR)
+}
+
+Rgammas <- function(n, p, models_with_RSS, gamma = 1){
+  # n <- length(y)
+  # p <- ncol(X)
+  Rgammas_unnrmlzd <- vapply(
+    models_with_RSS,
+    function(model) Rgamma_unnrmlzd(n, p, model, gamma = 1),
+    FUN.VALUE = numeric(1L)
+  )
+  Rgammas_unnrmlzd / sum(Rgammas_unnrmlzd)
+}
+
