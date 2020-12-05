@@ -45,13 +45,21 @@ gfiUltra <- function(formula, data, nsims = 5L, gamma = 1, ...){
   p <- ncol(X)
   Xm1 <- X[, -1L, drop = FALSE]
   sis <- quiet(SIS(Xm1, y = y, family = "gaussian", ...))
-  models <- powerset(sis[["ix"]], colnames(Xm1))
+  selectedIndices <- sis[["ix"]]
+  if(length(selectedIndices) == 0L){
+    message(
+      "No variables selected by SIS with regularization step - ",
+      "using variables selected by SIS only."
+    )
+    selectedIndices <- sis[["sis.ix0"]]
+  }
+  models <- powerset(selectedIndices, colnames(Xm1))
   models_with_FIT <- modelsWithFIT(X = X, y = y, models = models)
   modelsProbs <-
     Rgammas(n = n, p = p, models_with_FIT = models_with_FIT, gamma = gamma)
   #
   # simulations
-  selected <- colnames(X)[c(1L, 1L + sis[["ix"]])]
+  selected <- colnames(X)[c(1L, 1L + selectedIndices)]
   Sims <- matrix(NA_real_, nrow = nsims, ncol = length(selected) + 1L)
   colnames(Sims) <- c(selected, "sigma")
   nmodels <- length(models)
