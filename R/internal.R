@@ -32,12 +32,12 @@ Rgamma_unnrmlzd <- function(n, p, modelWithRSS, gamma){
   exp(logR)
 }
 
-Rgammas <- function(n, p, models_with_RSS, gamma = 1){
+Rgammas <- function(n, p, models_with_RSS, gamma){
   # n <- length(y)
   # p <- ncol(X)
   Rgammas_unnrmlzd <- vapply(
     models_with_RSS,
-    function(model) Rgamma_unnrmlzd(n, p, model, gamma = 1),
+    function(model) Rgamma_unnrmlzd(n, p, model, gamma),
     FUN.VALUE = numeric(1L)
   )
   Rgammas_unnrmlzd / sum(Rgammas_unnrmlzd)
