@@ -29,7 +29,7 @@ gfiUltra <- function(formula, data, nsims = 5L, gamma = 1, ...){
   #
   # simulations
   selected <- colnames(X)[c(1L, 1L + sis[["ix"]])]
-  Sims <- matrix(0, nrow = nsims, ncol = length(selected) + 1L)
+  Sims <- matrix(NA_real_, nrow = nsims, ncol = length(selected) + 1L)
   colnames(Sims) <- c(selected, "sigma")
   nmodels <- length(models)
   for(i in 1L:nsims){
@@ -43,5 +43,31 @@ gfiUltra <- function(formula, data, nsims = 5L, gamma = 1, ...){
     beta <- rmvnorm(1L, mean = Mcoeffs, sigma = Sigma, checkSymmetry = FALSE)
     Sims[i, c(Mvariables, "sigma")] <- c(beta, sqrt(sigma2))
   }
-  Sims
+  list(fidSims = Sims, models = sort(modelsProbs, decreasing = TRUE))
+}
+
+#' Title
+#' @description xx
+#'
+#' @param gfi xx
+#' @param conf xx
+#'
+#' @return xx
+#' @export
+#' @importFrom stats na.omit
+#'
+#' @examples xx
+gfiConfInt <- function(gfi, conf = 0.95){
+  Sims <- gfi[["fidSims"]]
+  Beta <- Sims[, -ncol(Sims), drop = FALSE]
+  NAs <- apply(Beta, 2L, function(x) mean(is.na(x)))
+  Beta <- Beta[, NAs < 0.5, drop = FALSE]
+  alpha <- 1-conf
+  intrvls <- apply(Beta, 2L, function(x){
+    quantile(x, probs = c(alpha/2, 1-alpha/2), na.rm = TRUE)
+  })
+  cbind(
+    intrvls,
+    sigma = quantile(Sims[, "sigma"], probs = c(alpha/2, 1-alpha/2))
+  )
 }

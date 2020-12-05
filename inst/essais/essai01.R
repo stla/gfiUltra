@@ -11,5 +11,8 @@ y <- model.matrix(~ x1 + x2) %*% c(10, 20, 3) + rnorm(n, sd = 2)
 dat <- cbind(y, data.frame(x1, x2), as.data.frame(Xnoise))
 
 # fiducial simulations ####
-fidsims <- gfiUltra(y ~ ., data = dat, nsims = 200)
-summary(fidsims)
+gfi <- gfiUltra(y ~ ., data = dat, nsims = 200)
+#summary(gfi$fidSims)
+
+gfiConfInt(gfi)
+
