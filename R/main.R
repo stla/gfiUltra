@@ -92,8 +92,11 @@ gfiUltra <- function(formula, data, nsims = 1000L, verbose = FALSE, gamma = 1, .
 #' @param conf confidence level
 #'
 #' @return The confidence intervals in a matrix.
-#' @export
+#'
 #' @seealso \code{\link{gfiEstimates}}
+#'
+#' @export
+#' @importFrom stats quantile
 gfiConfInt <- function(gfi, conf = 0.95){
   Sims <- gfi[["fidSims"]]
   Beta <- Sims[, -ncol(Sims), drop = FALSE]
@@ -116,8 +119,11 @@ gfiConfInt <- function(gfi, conf = 0.95){
 #' @param gfi an output of \code{\link{gfiUltra}}
 #'
 #' @return The estimates in a matrix.
-#' @export
+#'
 #' @seealso \code{\link{gfiConfInt}}
+#'
+#' @export
+#' @importFrom stats median
 gfiEstimates <- function(gfi){
   Sims <- gfi[["fidSims"]]
   Beta <- Sims[, -ncol(Sims), drop = FALSE]

@@ -6,7 +6,7 @@ Authors@R:
            family = "Laurent",
            role = c("aut", "cre"),
            email = "laurent_step@outlook.fr")
-Description: Variable selection for ultrahigh-dimensional ("large p small n") linear Gaussian model using a fiducial framework allowing to draw inference on the parameters. Reference: Lai, Hannig & Lee (2015) <doi:10.1080/01621459.2014.931237>.
+Description: Variable selection for ultrahigh-dimensional ("large p small n") linear Gaussian models using a fiducial framework allowing to draw inference on the parameters. Reference: Lai, Hannig & Lee (2015) <doi:10.1080/01621459.2014.931237>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
