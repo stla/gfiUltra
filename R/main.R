@@ -12,8 +12,9 @@
 #' @param ... named arguments passed to \code{\link[SIS:SIS]{SIS}}, such as
 #'   \code{penalty = "lasso"}
 #'
-#' @return A list with two elements: the fiducial simulations in a matrix and
-#'   a vector giving the probabilities of the selected models.
+#' @return A list with two elements: the fiducial simulations in a matrix
+#'   (\code{fidSims}) and a vector giving the probabilities of the selected
+#'   models (\code{models}).
 #'
 #' @references Randy C. S. Lai, Jan Hannig & Thomas C. M. Lee.
 #'   \emph{Generalized Fiducial Inference for Ultrahigh-Dimensional Regression}.
@@ -38,8 +39,11 @@
 #' dat <- cbind(y, as.data.frame(X))
 #' # fiducial simulations ####
 #' gfi <- gfiUltra(y ~ ., data = dat, nsims = 10000L)
+#' # selected models
+#' gfi$models
 #' # fiducial confidence intervals
 #' gfiConfInt(gfi)
+#' # fiducial estimates
 #' gfiEstimates(gfi)
 gfiUltra <- function(
   formula, data, nsims = 1000L, verbose = FALSE, gamma = 1, ...

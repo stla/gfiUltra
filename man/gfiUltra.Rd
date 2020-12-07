@@ -22,8 +22,9 @@ procedure}
 \code{penalty = "lasso"}}
 }
 \value{
-A list with two elements: the fiducial simulations in a matrix and
-  a vector giving the probabilities of the selected models.
+A list with two elements: the fiducial simulations in a matrix
+  (\code{fidSims}) and a vector giving the probabilities of the selected
+  models (\code{models}).
 }
 \description{
 Generates the fiducial simulations of the parameters of
@@ -42,8 +43,11 @@ y <- X[, 1L:5L] \%*\% beta + rnorm(n, sd = 0.9)
 dat <- cbind(y, as.data.frame(X))
 # fiducial simulations ####
 gfi <- gfiUltra(y ~ ., data = dat, nsims = 10000L)
+# selected models
+gfi$models
 # fiducial confidence intervals
 gfiConfInt(gfi)
+# fiducial estimates
 gfiEstimates(gfi)
 }
 \references{
