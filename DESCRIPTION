@@ -1,6 +1,6 @@
 Package: gfiUltra
 Title: Generalized Fiducial Inference for Ultrahigh-Dimensional Regression
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: 
     person(given = "Stéphane",
            family = "Laurent",
