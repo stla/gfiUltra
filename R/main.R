@@ -25,7 +25,7 @@
 #' @export
 #' @importFrom SIS SIS
 #' @importFrom lazyeval f_eval_lhs
-#' @importFrom stats model.matrix rchisq
+#' @importFrom stats model.matrix rchisq terms.formula
 #' @importFrom mvtnorm rmvnorm
 #'
 #' @examples # data ####
@@ -48,6 +48,12 @@
 gfiUltra <- function(
   formula, data, nsims = 1000L, verbose = FALSE, gamma = 1, ...
 ){
+  intercept <- attr(terms.formula(formula, data = data), "intercept")
+  if(intercept == 0L){
+    stop(
+      "The formula must include the intercept."
+    )
+  }
   y <- f_eval_lhs(formula, data = data)
   X <- model.matrix(formula, data = data)
   n <- length(y)
